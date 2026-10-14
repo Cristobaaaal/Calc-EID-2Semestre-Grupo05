@@ -20,3 +20,11 @@ def tasa_mb_s(t: float) -> float:
 def datos_mb(t: float) -> float:
     """Datos acumulados desde t=0, en MB (antiderivada de la tasa)."""
     return TASA_INICIAL_MB_S * t + PENDIENTE_MB_S2 * t**2 / 2
+
+
+def aportes_izquierdos_mb(n: int) -> list[float]:
+    """Aportes en MB usando n intervalos iguales y su extremo izquierdo."""
+    if isinstance(n, bool) or not isinstance(n, int) or n <= 0:
+        raise ValueError("n debe ser un entero positivo")
+    dt = DURACION_S / n
+    return [tasa_mb_s(i * dt) * dt for i in range(n)]

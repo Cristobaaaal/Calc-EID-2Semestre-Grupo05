@@ -6,7 +6,7 @@ Animación con Manim sobre acumulación a partir de una tasa variable, usando un
 
 La escena presenta una transferencia supuesta de **150 GB**, un plan de **600 Mbps** y la diferencia entre megabits y megabytes. 600 Mbps equivalen a un máximo teórico de **75 MB/s**; las velocidades del modelo (20 a 50 MB/s) son simuladas y no garantizadas por el plan.
 
-Los **150 GB son un tamaño hipotético para el ejercicio, no un dato oficial** ni una descarga real medida. La gráfica y el panel de descarga están disponibles en la escena `TasaVariable`. Los rectángulos y la explicación de la integral se implementarán en los siguientes bloques.
+Los **150 GB son un tamaño hipotético para el ejercicio, no un dato oficial** ni una descarga real medida. La gráfica y el panel de descarga están disponibles en la escena `TasaVariable`. Los rectángulos y sus aportes están disponibles en `AportesDescarga`; el refinamiento y la explicación de la integral se implementarán en el siguiente bloque.
 
 ## Instalación en macOS
 
@@ -56,3 +56,15 @@ Pruebas matemáticas (no requieren Manim):
 ```sh
 python -m unittest discover -s tests
 ```
+
+## Tercer bloque: aportes y suma de rectángulos
+
+```sh
+manim -pql descarga_gta.py AportesDescarga
+```
+
+Escena de unos 33 segundos. Divide la descarga en cinco intervalos iguales de 6000/7 s (aproximadamente 857.14 s) y usa la tasa al inicio de cada intervalo. Los puntos amarillos identifican las muestras y cada rectángulo representa tasa × duración, en MB.
+
+El primer aporte es aproximadamente 17142.86 MB, o 17.14 GB. La suma de los cinco aportes es aproximadamente 137.14 GB, inferior a los 150 GB del modelo porque la tasa es creciente y usamos extremos izquierdos. La función `aportes_izquierdos_mb(n)` permite calcular otras particiones sin redondear los valores intermedios; solo se redondean las cifras mostradas.
+
+Las seis pruebas verifican el modelo, los cinco aportes, la mejora numérica para 5/10/20 intervalos y el rechazo de cantidades de intervalos inválidas. La animación del refinamiento queda para el bloque 4.

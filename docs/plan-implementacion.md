@@ -41,4 +41,10 @@ Render de 26 segundos completado con Manim 0.22.0 y LaTeX. Revisadas visualmente
 
 Implementada `TasaVariable` y separado el modelo en `modelo_descarga.py` para comprobarlo sin dependencias gráficas. Un solo ValueTracker sincroniza los indicadores y el punto de la gráfica. No se implementaron todavía los bloques 3 y 4.
 
-Pruebas: inicio (0 MB, 20 MB/s), punto intermedio (23500 MB y 27 MB/s a los 1000 s) y final (150 GB, 50 MB/s, bajo el máximo teórico del plan). Render de 29 s, revisión visual al inicio, durante la descarga y al final. Porcentaje inicialmente centrado fuera del panel: corregido fijando su posición antes de la primera actualización. Commit del bloque 2 pendiente del usuario.
+Pruebas: inicio (0 MB, 20 MB/s), punto intermedio (23500 MB y 27 MB/s a los 1000 s) y final (150 GB, 50 MB/s, bajo el máximo teórico del plan). Render de 29 s, revisión visual al inicio, durante la descarga y al final. Porcentaje inicialmente centrado fuera del panel: corregido fijando su posición antes de la primera actualización. Commit del bloque 2 realizado por el usuario: `85c3264`.
+
+## Estado del bloque 3
+
+Implementada `AportesDescarga`: primer rectángulo, ancho temporal, muestra izquierda, unidades MB/s × s = MB y suma progresiva de cinco aportes. `aportes_izquierdos_mb(n)` comparte la partición numérica con el criterio de la visualización. El total 137.14 GB se compara con los 150 GB del modelo y se explica la subestimación.
+
+Verificación: seis pruebas aprobadas, render de 32.73 s y revisión visual del primer aporte, una suma intermedia y el resultado. `git diff --check` sin errores. No se avanzó al bloque 4 ni se hicieron commits. Pendiente del commit del usuario.

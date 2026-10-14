@@ -4,13 +4,13 @@ Renderizar: manim -pql descarga_gta.py IntroduccionDescarga
 """
 
 from manim import (
-    Axes, BLUE_C, Create, DashedLine, DecimalNumber, Dot, DOWN,
+    Axes, BLUE_C, Brace, Create, DashedLine, DecimalNumber, Dot, DOWN,
     FadeIn, FadeOut, GREEN_C, LEFT, MathTex, Rectangle,
-    RoundedRectangle, Scene, Text, UP, ValueTracker, VGroup, Write,
+    RoundedRectangle, Scene, Text, UP, ValueTracker, VGroup, Write, YELLOW_C,
     always_redraw, linear,
 )
 
-from modelo_descarga import DURACION_S, PLAN_MBPS, TAMANO_GB, datos_mb, tasa_mb_s
+from modelo_descarga import DURACION_S, PLAN_MBPS, TAMANO_GB, datos_mb, tasa_mb_s, aportes_izquierdos_mb
 
 COLOR_TEXTO = "#F1F5F9"
 COLOR_SECUNDARIO = "#B8C4D6"
@@ -163,3 +163,93 @@ class TasaVariable(Scene):
         self.play(tiempo.animate.set_value(DURACION_S), run_time=18, rate_func=linear)
         self.play(FadeIn(cierre))
         self.wait(4)
+
+
+class AportesDescarga(Scene):
+    """Interpreta un rectángulo y suma cinco aportes izquierdos en MB."""
+
+    def construct(self):
+        n = 5
+        dt = DURACION_S / n
+        aportes = aportes_izquierdos_mb(n)
+        titulo = Text("De la velocidad a los datos descargados", font_size=34,
+                      color=COLOR_TEXTO).to_edge(UP, buff=0.35)
+        subtitulo = Text("5 intervalos iguales · velocidad al inicio de cada intervalo",
+                         font_size=22, color=COLOR_SECUNDARIO).move_to([0, 2.75, 0])
+        ejes = Axes(
+            x_range=[0, 4500, 1500], y_range=[0, 60, 20],
+            x_length=6.5, y_length=3.2,
+            axis_config={"include_tip": False, "color": COLOR_SECUNDARIO},
+            x_axis_config={"numbers_to_include": [1500, 3000, 4500]},
+            y_axis_config={"numbers_to_include": [20, 40, 60]},
+        ).move_to([-3.1, 0.1, 0])
+        x_label = Text("Tiempo (s)", font_size=19,
+                       color=COLOR_SECUNDARIO).next_to(ejes, DOWN, buff=0.2)
+        y_label = Text("MB/s", font_size=19,
+                       color=COLOR_SECUNDARIO).next_to(ejes.y_axis, UP, buff=0.1)
+        curva = ejes.plot(tasa_mb_s, x_range=[0, DURACION_S], color=GREEN_C)
+        rectangulos = VGroup()
+        puntos = VGroup()
+        # Cada rectángulo usa exactamente el mismo dt que el cálculo numérico.
+        for i in range(n):
+            x = i * dt
+            altura = tasa_mb_s(x)
+            rectangulos.add(Rectangle(
+                width=ejes.c2p(x + dt, 0)[0] - ejes.c2p(x, 0)[0],
+                height=ejes.c2p(0, altura)[1] - ejes.c2p(0, 0)[1],
+                fill_color=BLUE_C, fill_opacity=0.45,
+                stroke_color=BLUE_C, stroke_width=1.5,
+            ).move_to(ejes.c2p(x + dt / 2, altura / 2)))
+            puntos.add(Dot(ejes.c2p(x, altura), radius=0.055, color=YELLOW_C))
+
+        formula = MathTex(r"\Delta A_i\approx r(t_i^*)\,\Delta t",
+                          font_size=36).move_to([3.7, 1.65, 0])
+        unidades = MathTex(r"\frac{\mathrm{MB}}{\mathrm{s}}\cdot\mathrm{s}=\mathrm{MB}",
+                           font_size=32, color=GREEN_C).move_to([3.7, 0.7, 0])
+        ejemplo = VGroup(
+            Text("Primer intervalo", font_size=24, color=YELLOW_C),
+            MathTex(r"20\;\mathrm{MB/s}\times\frac{6000}{7}\;\mathrm{s}", font_size=30),
+            MathTex(r"\approx 17142.86\;\mathrm{MB}", font_size=30),
+            MathTex(r"\approx 17.14\;\mathrm{GB}", font_size=30, color=GREEN_C),
+        ).arrange(DOWN, buff=0.25).move_to([3.7, -0.9, 0])
+        ancho = Brace(rectangulos[0], DOWN, buff=0.07, color=YELLOW_C)
+        ancho_texto = MathTex(r"\Delta t\approx857.14\;\mathrm{s}",
+                             font_size=24, color=YELLOW_C).next_to(ancho, DOWN, buff=0.08)
+        explicacion = Text("La altura es una tasa; el área del rectángulo representa datos.",
+                           font_size=23, color=COLOR_TEXTO).move_to([0, -2.85, 0])
+        nota = Text("Modelo hipotético de GTA VI · 1 GB = 1000 MB · valores redondeados",
+                    font_size=18, color=COLOR_SECUNDARIO).to_edge(DOWN, buff=0.25)
+        self.play(FadeIn(titulo), FadeIn(subtitulo))
+        self.play(Create(ejes), FadeIn(x_label), FadeIn(y_label), Create(curva))
+        self.play(FadeIn(rectangulos[0]), FadeIn(puntos[0]), Write(formula))
+        self.play(FadeIn(ancho), FadeIn(ancho_texto), Write(unidades))
+        self.play(FadeIn(ejemplo), FadeIn(explicacion), FadeIn(nota))
+        self.wait(6)
+
+        self.play(FadeOut(ejemplo), FadeOut(ancho), FadeOut(ancho_texto),
+                  FadeOut(explicacion), FadeOut(formula), FadeOut(unidades))
+        sumatoria = MathTex(r"S_5=\sum_{i=1}^{5}r(t_i^*)\,\Delta t",
+                            font_size=34).move_to([3.7, 1.65, 0])
+        etiqueta_total = Text("Suma aproximada (GB)", font_size=24,
+                              color=COLOR_SECUNDARIO).move_to([3.7, 0.75, 0])
+        total = DecimalNumber(aportes[0] / 1000, num_decimal_places=2,
+                              group_with_commas=False, font_size=48,
+                              color=GREEN_C).move_to([3.7, -0.05, 0])
+        self.play(Write(sumatoria), FadeIn(etiqueta_total), FadeIn(total))
+        for i in range(1, n):
+            incremento = Text(f"+ {aportes[i] / 1000:.2f} GB", font_size=28,
+                              color=YELLOW_C).move_to([3.7, -0.9, 0])
+            self.play(FadeIn(rectangulos[i]), FadeIn(puntos[i]), FadeIn(incremento))
+            self.play(total.animate.set_value(sum(aportes[:i + 1]) / 1000))
+            self.wait(0.6)
+            self.play(FadeOut(incremento), run_time=0.3)
+        comparacion = MathTex(r"137.14\;\mathrm{GB}<150\;\mathrm{GB}", font_size=29,
+                             color=YELLOW_C).move_to([3.7, -1.15, 0])
+        conclusion = VGroup(
+            Text("La tasa aumenta: los rectángulos izquierdos quedan bajo la curva.",
+                 font_size=22, color=COLOR_TEXTO),
+            Text("Subestimamos los datos descargados. ¿Qué pasa con intervalos más pequeños?",
+                 font_size=21, color=COLOR_SECUNDARIO),
+        ).arrange(DOWN, buff=0.18).move_to([0, -2.8, 0])
+        self.play(FadeIn(comparacion), FadeIn(conclusion))
+        self.wait(6)
