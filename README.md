@@ -6,7 +6,7 @@ Animación con Manim sobre acumulación a partir de una tasa variable, usando un
 
 La escena presenta una transferencia supuesta de **150 GB**, un plan de **600 Mbps** y la diferencia entre megabits y megabytes. 600 Mbps equivalen a un máximo teórico de **75 MB/s**; las velocidades del modelo (20 a 50 MB/s) son simuladas y no garantizadas por el plan.
 
-Los **150 GB son un tamaño hipotético para el ejercicio, no un dato oficial** ni una descarga real medida. La gráfica y el panel de descarga están disponibles en la escena `TasaVariable`. Los rectángulos y sus aportes están disponibles en `AportesDescarga`; el refinamiento y la explicación de la integral se implementarán en el siguiente bloque.
+Los **150 GB son un tamaño hipotético para el ejercicio, no un dato oficial** ni una descarga real medida. La gráfica y el panel de descarga están disponibles en la escena `TasaVariable`. Los rectángulos y sus aportes están disponibles en `AportesDescarga`; el refinamiento y el cierre están en `IntegralDescarga`.
 
 ## Instalación en macOS
 
@@ -67,4 +67,30 @@ Escena de unos 33 segundos. Divide la descarga en cinco intervalos iguales de 60
 
 El primer aporte es aproximadamente 17142.86 MB, o 17.14 GB. La suma de los cinco aportes es aproximadamente 137.14 GB, inferior a los 150 GB del modelo porque la tasa es creciente y usamos extremos izquierdos. La función `aportes_izquierdos_mb(n)` permite calcular otras particiones sin redondear los valores intermedios; solo se redondean las cifras mostradas.
 
-Las seis pruebas verifican el modelo, los cinco aportes, la mejora numérica para 5/10/20 intervalos y el rechazo de cantidades de intervalos inválidas. La animación del refinamiento queda para el bloque 4.
+Las seis pruebas verifican el modelo, los cinco aportes, la mejora numérica para 5/10/20 intervalos y el rechazo de cantidades de intervalos inválidas. La animación del refinamiento está en `IntegralDescarga`.
+
+## Cuarto bloque: refinamiento, integral y cierre
+
+```sh
+manim -pql descarga_gta.py IntegralDescarga
+```
+
+Se comparan sumas izquierdas con 5, 10, 20, 40 y 80 rectángulos: aproximadamente 137.14, 143.57, 146.79, 148.39 y 149.20 GB. Ninguna de estas sumas finitas se presenta como el resultado exacto. Al refinar la partición, el límite es la integral, cuyo valor en el modelo es 150000 MB = 150 GB.
+
+El cierre responde explícitamente la pregunta del grupo: cada tasa por duración aporta una cantidad de datos, la suma aproxima la acumulación y la integral expresa el límite de esas sumas.
+
+## Video completo
+
+```sh
+manim -pql descarga_gta.py VideoCompleto
+```
+
+Para una versión de 1080p:
+
+```sh
+manim -pqh descarga_gta.py VideoCompleto
+```
+
+El video reúne las cuatro escenas con transiciones. No incluye voz ni música; las pausas permiten añadir la explicación del grupo. Si la narración necesita más tiempo, se pueden ajustar los `self.wait(...)` de cada escena.
+
+La vista previa queda en `media/videos/descarga_gta/480p15/VideoCompleto.mp4`; la versión de alta calidad se guarda en `media/videos/descarga_gta/1080p60/VideoCompleto.mp4`.

@@ -30,7 +30,7 @@ Se utilizarán extremos izquierdos para mostrar la mejora de la aproximación: e
 
 ## Estructura visual y del código
 
-Un archivo principal `descarga_gta.py` con escenas independientes para renderizar y revisar cada parte. Constantes compartidas para tamaño, duración y colores. Panel visual propio con título del juego, velocidad, cantidad descargada y barra de progreso; no necesita imágenes del juego ni descargarlo.
+Un archivo principal `descarga_gta.py` con escenas independientes para renderizar y revisar cada parte, y `VideoCompleto` para reunirlas. El módulo `modelo_descarga.py` contiene las constantes físicas y los cálculos comprobables sin Manim; los colores permanecen en el archivo de escenas. Panel visual propio con título del juego, velocidad, cantidad descargada y barra de progreso; no necesita imágenes del juego ni descargarlo.
 
 1. Introducción: contexto, pregunta central, tamaño de referencia y unidades.
 2. Tasa variable: gráfica y panel de descarga sincronizados.

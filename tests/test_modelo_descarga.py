@@ -36,6 +36,12 @@ class AportesTests(unittest.TestCase):
             self.assertLess(total, 150)
             anterior = total
 
+    def test_refinar_reduce_a_la_mitad_el_error_en_esta_tasa_lineal(self):
+        errores = [150000 - sum(aportes_izquierdos_mb(n)) for n in (20, 40, 80)]
+        self.assertAlmostEqual(errores[0] / errores[1], 2)
+        self.assertAlmostEqual(errores[1] / errores[2], 2)
+        self.assertAlmostEqual(sum(aportes_izquierdos_mb(80)) / 1000, 149.1964285714)
+
     def test_rechaza_particiones_sin_un_numero_entero_positivo(self):
         for n in (0, -1, 2.5, True):
             with self.assertRaises(ValueError):

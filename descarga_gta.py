@@ -1,11 +1,11 @@
-"""EID Grupo 5: introducción a una descarga simulada con tasa variable.
+"""EID Grupo 5: descarga simulada, sumas de Riemann e integral.
 
 Renderizar: manim -pql descarga_gta.py IntroduccionDescarga
 """
 
 from manim import (
     Axes, BLUE_C, Brace, Create, DashedLine, DecimalNumber, Dot, DOWN,
-    FadeIn, FadeOut, GREEN_C, LEFT, MathTex, Rectangle,
+    FadeIn, FadeOut, GREEN_C, LEFT, MathTex, Rectangle, ReplacementTransform,
     RoundedRectangle, Scene, Text, UP, ValueTracker, VGroup, Write, YELLOW_C,
     always_redraw, linear,
 )
@@ -253,3 +253,127 @@ class AportesDescarga(Scene):
         ).arrange(DOWN, buff=0.18).move_to([0, -2.8, 0])
         self.play(FadeIn(comparacion), FadeIn(conclusion))
         self.wait(6)
+
+
+class IntegralDescarga(Scene):
+    """Refina sumas izquierdas y responde la pregunta central mediante el límite."""
+
+    def construct(self):
+        titulo = Text("Intervalos más pequeños, una mejor aproximación",
+                      font_size=32, color=COLOR_TEXTO).to_edge(UP, buff=0.4)
+        regla = MathTex(r"\Delta t=\frac{T}{n},\qquad T=\frac{30000}{7}\;\mathrm{s}",
+                        font_size=32).move_to([0, 2.65, 0])
+        ejes = Axes(
+            x_range=[0, 4500, 1500], y_range=[0, 60, 20],
+            x_length=6.5, y_length=3.2,
+            axis_config={"include_tip": False, "color": COLOR_SECUNDARIO},
+            x_axis_config={"numbers_to_include": [1500, 3000, 4500]},
+            y_axis_config={"numbers_to_include": [20, 40, 60]},
+        ).move_to([-3.1, 0.05, 0])
+        etiqueta_x = Text("Tiempo (s)", font_size=20,
+                          color=COLOR_SECUNDARIO).next_to(ejes, DOWN, buff=0.15)
+        etiqueta_y = Text("MB/s", font_size=20,
+                          color=COLOR_SECUNDARIO).next_to(ejes.y_axis, UP, buff=0.1)
+        curva = ejes.plot(tasa_mb_s, x_range=[0, DURACION_S], color=GREEN_C)
+        tabla = VGroup(Text("n", font_size=25), Text("Suma (GB)", font_size=25))
+        tabla[0].move_to([2.5, 1.75, 0])
+        tabla[1].move_to([4.7, 1.75, 0])
+        rectangulos = None
+        filas = VGroup()
+        self.play(FadeIn(titulo), Write(regla))
+        self.play(Create(ejes), FadeIn(etiqueta_x), FadeIn(etiqueta_y), Create(curva))
+        self.play(FadeIn(tabla))
+        for indice, n in enumerate((5, 10, 20, 40, 80)):
+            dt = DURACION_S / n
+            nuevos = VGroup()
+            for i in range(n):
+                x = i * dt
+                altura = tasa_mb_s(x)
+                nuevos.add(Rectangle(
+                    width=ejes.c2p(x + dt, 0)[0] - ejes.c2p(x, 0)[0],
+                    height=ejes.c2p(0, altura)[1] - ejes.c2p(0, 0)[1],
+                    fill_color=BLUE_C, fill_opacity=0.5,
+                    stroke_color=BLUE_C, stroke_width=0.7,
+                ).move_to(ejes.c2p(x + dt / 2, altura / 2)))
+            valor = sum(aportes_izquierdos_mb(n)) / 1000
+            fila = VGroup(
+                Text(str(n), font_size=27, color=COLOR_TEXTO)
+                .move_to([2.5, 1.0 - indice * 0.6, 0]),
+                Text(f"{valor:.2f}", font_size=27, color=GREEN_C)
+                .move_to([4.7, 1.0 - indice * 0.6, 0]),
+            )
+            filas.add(fila)
+            cambio = FadeIn(nuevos) if rectangulos is None else ReplacementTransform(rectangulos, nuevos)
+            self.play(cambio, FadeIn(fila), run_time=1.2)
+            # La curva queda sobre los rectángulos para distinguir el error.
+            self.bring_to_front(curva)
+            rectangulos = nuevos
+            self.wait(1.5)
+        mensaje = Text("Las sumas se acercan a 150 GB; 80 rectángulos aún son una aproximación.",
+                       font_size=22, color=COLOR_TEXTO).move_to([0, -2.65, 0])
+        self.play(FadeIn(mensaje))
+        self.wait(3)
+        self.play(*[FadeOut(obj) for obj in list(self.mobjects)])
+
+        titulo_integral = Text("La integral es el límite de estas sumas",
+                               font_size=35, color=COLOR_TEXTO).to_edge(UP, buff=0.5)
+        limite = MathTex(
+            r"\lim_{n\to\infty}\sum_{i=1}^{n}r(t_i^*)\,\Delta t"
+            r"=\int_0^T r(t)\,dt",
+            font_size=42,
+        ).move_to([0, 1.7, 0])
+        explicacion = Text("Al aumentar n, el ancho Δt disminuye y la aproximación mejora.",
+                           font_size=24, color=COLOR_SECUNDARIO).move_to([0, 0.65, 0])
+        evaluacion = MathTex(
+            r"\int_0^T(20+0.007t)\,dt"
+            r"=\left[20t+0.0035t^2\right]_0^T",
+            font_size=36,
+        ).move_to([0, -0.4, 0])
+        extremo = MathTex(r"T=\frac{30000}{7}\;\mathrm{s}\approx71\;\mathrm{min}\;26\;\mathrm{s}",
+                         font_size=29, color=COLOR_SECUNDARIO).move_to([0, -1.35, 0])
+        resultado = MathTex(r"150000\;\mathrm{MB}=150\;\mathrm{GB}",
+                           font_size=48, color=GREEN_C).move_to([0, -2.35, 0])
+        self.play(FadeIn(titulo_integral), Write(limite))
+        self.play(FadeIn(explicacion))
+        self.wait(3)
+        self.play(Write(evaluacion), FadeIn(extremo))
+        self.play(Write(resultado))
+        self.wait(4)
+        self.play(*[FadeOut(obj) for obj in list(self.mobjects)])
+
+        pregunta = Text("¿Cómo una tasa variable produce una cantidad acumulada?",
+                        font_size=29, color=COLOR_TEXTO).to_edge(UP, buff=0.7)
+        respuesta = VGroup(
+            Text("En cada intervalo: tasa × duración ≈ datos descargados.",
+                 font_size=27, color=COLOR_TEXTO),
+            Text("Sumamos los aportes de todos los intervalos.",
+                 font_size=27, color=COLOR_TEXTO),
+            Text("La integral expresa el límite de esas sumas.",
+                 font_size=29, color=GREEN_C),
+        ).arrange(DOWN, buff=0.5).move_to([0, 0.5, 0])
+        unidades = MathTex(r"\underbrace{\mathrm{MB/s}}_{\text{tasa}}"
+                           r"\times\underbrace{\mathrm{s}}_{\text{tiempo}}"
+                           r"=\underbrace{\mathrm{MB}}_{\text{datos}}",
+                           font_size=34).move_to([0, -1.5, 0])
+        nota = Text("GTA VI: descarga hipotética de 150 GB, desde 0 GB · no es un dato oficial",
+                    font_size=19, color=COLOR_SECUNDARIO).to_edge(DOWN, buff=0.5)
+        self.play(FadeIn(pregunta))
+        for linea in respuesta:
+            self.play(FadeIn(linea))
+        self.play(Write(unidades), FadeIn(nota))
+        self.wait(6)
+
+
+class VideoCompleto(Scene):
+    """Reúne las cuatro partes, sin audio, con pausas para la narración."""
+
+    def construct(self):
+        escenas = (IntroduccionDescarga, TasaVariable, AportesDescarga, IntegralDescarga)
+        for indice, escena in enumerate(escenas):
+            escena.construct(self)
+            if indice < len(escenas) - 1:
+                # Congelar los indicadores antes de retirar la escena anterior.
+                for objeto in self.mobjects:
+                    objeto.clear_updaters()
+                self.play(*[FadeOut(obj) for obj in list(self.mobjects)], run_time=0.6)
+                self.clear()

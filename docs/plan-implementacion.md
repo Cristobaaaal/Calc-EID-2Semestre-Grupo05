@@ -47,4 +47,10 @@ Pruebas: inicio (0 MB, 20 MB/s), punto intermedio (23500 MB y 27 MB/s a los 1000
 
 Implementada `AportesDescarga`: primer rectángulo, ancho temporal, muestra izquierda, unidades MB/s × s = MB y suma progresiva de cinco aportes. `aportes_izquierdos_mb(n)` comparte la partición numérica con el criterio de la visualización. El total 137.14 GB se compara con los 150 GB del modelo y se explica la subestimación.
 
-Verificación: seis pruebas aprobadas, render de 32.73 s y revisión visual del primer aporte, una suma intermedia y el resultado. `git diff --check` sin errores. No se avanzó al bloque 4 ni se hicieron commits. Pendiente del commit del usuario.
+Verificación: seis pruebas aprobadas, render de 32.73 s y revisión visual del primer aporte, una suma intermedia y el resultado. `git diff --check` sin errores. No se avanzó al bloque 4 ni se hicieron commits. Commit del usuario: `6ba4a35`.
+
+## Bloque 4: refinamiento y cierre
+
+Implementada `IntegralDescarga`: comparación de 5/10/20/40/80 rectángulos izquierdos, límite de las sumas, evaluación de la integral y respuesta a la pregunta central. `VideoCompleto` reúne las cuatro escenas y retira sus actualizadores entre transiciones. Se conserva la aclaración de que 150 GB es un supuesto no oficial.
+
+Pruebas: siete comprobaciones matemáticas, incluida la reducción a la mitad del error al duplicar n en esta tasa lineal. Render final de 48.33 segundos y video completo de 137.87 segundos. Revisados fotogramas de las cuatro partes y las fórmulas finales; revisión independiente de código sin problemas importantes. `git diff --check` correcto. No hacer commits: corresponden al usuario.
