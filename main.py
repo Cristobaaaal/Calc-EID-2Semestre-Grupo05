@@ -78,7 +78,7 @@ def columna_derecha(*objetos):
 # =====================================================================
 class Escena1_Presentacion(Scene):
     def construct(self):
-        curso = Text("MAT1188 · Cálculo Intermedio · Grupo 5", font_size=26, color=CIAN)
+        curso = Text("MAT1134 · Cálculo Intermedio · Grupo 5", font_size=26, color=CIAN)
         tema = Text("Acumulación a partir de una tasa variable", font_size=44, weight=BOLD)
         pregunta = Text(
             "¿Cómo una tasa que cambia con el tiempo\nproduce una cantidad acumulada?",
@@ -390,7 +390,7 @@ class Escena9_Creditos(Scene):
     def construct(self):
         creditos = VGroup(
             Text("Créditos y fuentes", font_size=40, weight=BOLD),
-            Text("Franco Lillo · José Sepúlveda · Cristóbal Dapellus — Grupo 5, MAT1188", font_size=24, color=CIAN),
+            Text("Franco Lillo · José Sepúlveda · Cristóbal Dapellus — Grupo 5, MAT1134", font_size=24, color=CIAN),
             Text("Equipo docente MAT1188 (2026). Introducción a la integral. Apunte base.", font_size=22),
             Text("Stewart, J. (2012). Cálculo de una variable. Trascendentes tempranas, 7.ª ed. Cengage.", font_size=22),
             Text("Thomas, G., Weir, M. y Hass, J. (2010). Cálculo. Una variable, 12.ª ed. Pearson.", font_size=22),
