@@ -11,7 +11,7 @@
 
 ## Tema y pregunta central
 
-- Tema asignado: La integral como acumulación
+- Tema asignado: Acumulación a partir de una tasa variable
 - Pregunta central: ¿Cómo una tasa que cambia con el tiempo produce una cantidad acumulada?
 - Ejemplo principal: La descarga de un archivo llamado juego.zip, de 100 MB, con una velocidad que aumenta con el tiempo la cuál está dada por r(t)= 2+t MB/s , 0 <= t <= 4.
   
@@ -68,10 +68,11 @@ macOS:
 
 ## Fuentes matemáticas
 
-- 1.Equipo docente MAT1188 (2026). Introducción a la integral. Apunte base.
+- 1.Equipo docente MATE1134 (2026). Introducción a la integral. Apunte base.
 - 2.Stewart, J. (2012). Cálculo de una variable. Trascendentes tempranas, 7.ª ed. Cengage.
 - 3.Thomas, G., Weir, M. y Hass, J. (2010). Cálculo. Una variable, 12.ª ed. Pearson.
-- 4.Strang, G. y Herman, E. (2016). Calculus Volume 1. OpenStax.
+- 4.Strang, G. y Herman, E. (2016). Calculus Volume 1. OpenStax. https://openstax.org/details/books/calculus-volume-1
+- 5.The Manim Community Developers. Manim Community v0.22.0. https://docs.manim.community/
 
 ## Declaración de uso de inteligencia artificial
 
@@ -84,3 +85,7 @@ Para qué se usó:
 - Guion de la narración: Borrador de la IA pero modificado por el grupo.
 - README.md: Borradores de la IA pero en gran parte escrito por el grupo.
 
+Cómo se verificó:
+- Se ejecutó main.py y se revisó que el video mostrara lo pedido por el grupo.
+- Se rehicieron a mano los cálculos principales y coinciden con el video: S4 = 2 + 3 + 4 + 5 = 14 MB, S8 = 15 MB, la integral de 0 a 4 de (2 + t) dt = 16 MB y el área del trapecio (2 + 6)/2 · 4 = 16 MB.
+- Se contrastaron las definiciones (partición, punto muestra, suma de Riemann, integral definida y Teorema Fundamental del Cálculo) con el apunte base.
