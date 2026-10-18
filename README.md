@@ -28,23 +28,23 @@ Este repositorio contiene el código, las dependencias y los recursos necesarios
 ## Instalación
 
 Windows:
-winget install MiKTeX.MiKTeX
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+- winget install MiKTeX.MiKTeX
+- python -m venv .venv
+- .venv\Scripts\activate
+- pip install -r requirements.txt
 
 macOS:
-brew install python@3.13
-brew install --cask mactex-no-gui
-python3.13 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+- brew install python@3.13
+- brew install --cask mactex-no-gui
+- python3.13 -m venv .venv
+- source .venv/bin/activate
+- pip install -r requirements.txt
    
 ## Ejecución de las escenas
 
-Probar una escena en baja calidad: manim -pql main.py Escena4_Riemann
-Video final en 1920 × 1080 a 60 fps: manim -qh main.py VideoCompleto
-El MP4 queda en media/videos/main/1080p60/VideoCompleto.mp4, sin audio. Las voces se graban aparte.
+-Probar una escena en baja calidad: manim -pql main.py Escena4_Riemann
+-Video final en 1920 × 1080 a 60 fps: manim -qh main.py VideoCompleto
+-El MP4 queda en media/videos/main/1080p60/VideoCompleto.mp4, sin audio. Las voces se graban aparte.
 
 ## Escenas incluidas
 
@@ -68,15 +68,15 @@ El MP4 queda en media/videos/main/1080p60/VideoCompleto.mp4, sin audio. Las voce
 
 ## Fuentes matemáticas
 
-1.Equipo docente MAT1188 (2026). Introducción a la integral. Apunte base.
-2.Stewart, J. (2012). Cálculo de una variable. Trascendentes tempranas, 7.ª ed. Cengage.
-3.Thomas, G., Weir, M. y Hass, J. (2010). Cálculo. Una variable, 12.ª ed. Pearson.
-4.Strang, G. y Herman, E. (2016). Calculus Volume 1. OpenStax.
+- 1.Equipo docente MAT1188 (2026). Introducción a la integral. Apunte base.
+- 2.Stewart, J. (2012). Cálculo de una variable. Trascendentes tempranas, 7.ª ed. Cengage.
+- 3.Thomas, G., Weir, M. y Hass, J. (2010). Cálculo. Una variable, 12.ª ed. Pearson.
+- 4.Strang, G. y Herman, E. (2016). Calculus Volume 1. OpenStax.
 
 ## Declaración de uso de inteligencia artificial
 
-Se usó inteligencia artificial para el desarrollo de este trabajo.
-Herramienta: Claude (Anthropic), usado a través de la aplicación Claude Code, entre el 13 y el 16 de octubre de 2026.
+-Se usó inteligencia artificial para el desarrollo de este trabajo.
+-Herramienta: Claude (Anthropic), usado a través de la aplicación Claude Code, entre el 13 y el 16 de octubre de 2026.
 
 Para qué se usó: 
 -El código de las animaciones fue generado por la IA bajo la estricta supervisión de los estudiantes y contrastada con las fuentes ya mencionadas.
