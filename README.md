@@ -42,9 +42,9 @@ macOS:
    
 ## Ejecución de las escenas
 
--Probar una escena en baja calidad: manim -pql main.py Escena4_Riemann
--Video final en 1920 × 1080 a 60 fps: manim -qh main.py VideoCompleto
--El MP4 queda en media/videos/main/1080p60/VideoCompleto.mp4, sin audio. Las voces se graban aparte.
+- Probar una escena en baja calidad: manim -pql main.py Escena4_Riemann
+- Video final en 1920 × 1080 a 60 fps: manim -qh main.py VideoCompleto
+- El MP4 queda en media/videos/main/1080p60/VideoCompleto.mp4, sin audio. Las voces se graban aparte.
 
 ## Escenas incluidas
 
@@ -75,12 +75,12 @@ macOS:
 
 ## Declaración de uso de inteligencia artificial
 
--Se usó inteligencia artificial para el desarrollo de este trabajo.
--Herramienta: Claude (Anthropic), usado a través de la aplicación Claude Code, entre el 13 y el 16 de octubre de 2026.
+- Se usó inteligencia artificial para el desarrollo de este trabajo.
+- Herramienta: Claude (Anthropic), usado a través de la aplicación Claude Code, entre el 13 y el 16 de octubre de 2026.
 
 Para qué se usó: 
--El código de las animaciones fue generado por la IA bajo la estricta supervisión de los estudiantes y contrastada con las fuentes ya mencionadas.
--Orden de las escenas y qué debía mostrar cada una: El grupo lo pidió y ordenó, la IA lo implementó.
--Guion de la narración: Borrador de la IA pero modificado por el grupo.
--README.md: Borradores de la IA pero en gran parte escrito por el grupo.
+- El código de las animaciones fue generado por la IA bajo la estricta supervisión de los estudiantes y contrastada con las fuentes ya mencionadas.
+- Orden de las escenas y qué debía mostrar cada una: El grupo lo pidió y ordenó, la IA lo implementó.
+- Guion de la narración: Borrador de la IA pero modificado por el grupo.
+- README.md: Borradores de la IA pero en gran parte escrito por el grupo.
 
